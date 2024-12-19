@@ -3,41 +3,38 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ayarab <ayarab@student.42.fr>              +#+  +:+       +#+         #
+#    By: ayarab < ayarab@student.42.fr >            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/17 02:38:31 by ayarab            #+#    #+#              #
-#    Updated: 2024/12/17 04:59:49 by ayarab           ###   ########.fr        #
+#    Updated: 2024/12/19 19:26:03 by ayarab           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS =	main.c philo_parsing.c mini_lib.c\
-		 
-					
-OBJS			= $(SRCS:.c=.o)
 
-CC				= cc -g3
-RM				= rm -f
-CFLAGS			= -Wall -Wextra -Werror
+SRCS =	main.c philo_parsing.c mini_lib.c
 
-NAME			= philo
+OBJS = $(SRCS:.c=.o)
 
+CC = cc -g3
+RM = rm -f
+CFLAGS = -Wall -Wextra -Werror
 
-all:			$(NAME)
+NAME = philo
 
-$(NAME):		$(OBJS)
-				$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+all: $(NAME)
+
+$(NAME): $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+
 clean:
-				$(RM) $(OBJS)
-				make clean -s
+	$(RM) $(OBJS)
 
-fclean:			clean
-				$(RM) $(NAME)
-				make fclean -s
+fclean: clean
+	$(RM) $(NAME)
 
-re:				fclean $(NAME)
+re: fclean $(NAME)
 
-%.o : %c
-				$(CC) $(CFLAGS) -c $< -o $@
-				
-  
-.PHONY:			all clean fclean re bonus
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+.PHONY: all clean fclean re
