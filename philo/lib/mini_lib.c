@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_lib.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayarab <ayarab@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ayarab < ayarab@student.42.fr >            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 02:45:39 by ayarab            #+#    #+#             */
-/*   Updated: 2024/12/17 04:28:59 by ayarab           ###   ########.fr       */
+/*   Updated: 2024/12/21 20:47:46 by ayarab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ long ft_atoi_spe(char *str)
 	{
 		res *= 10;
 		res += str[i] - 48;
-		if (res > MAX_INT || res < MIN_INT)
-			return (2147483648);
+		if (res > INT_MAX || res < INT_MIN)
+			return (-1);
 		i++;
 	}
 	return (sign * res);

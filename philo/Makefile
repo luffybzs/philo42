@@ -6,18 +6,18 @@
 #    By: ayarab < ayarab@student.42.fr >            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/17 02:38:31 by ayarab            #+#    #+#              #
-#    Updated: 2024/12/19 19:26:03 by ayarab           ###   ########.fr        #
+#    Updated: 2024/12/21 19:13:32 by ayarab           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
-SRCS =	main.c philo_parsing.c mini_lib.c
+SRCS =	main.c philo_parsing.c  lib/lst_utils.c lib/mini_lib.c
 
 OBJS = $(SRCS:.c=.o)
 
 CC = cc -g3
 RM = rm -f
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -Iinc
 
 NAME = philo
 

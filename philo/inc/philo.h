@@ -3,23 +3,49 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayarab <ayarab@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ayarab < ayarab@student.42.fr >            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 02:33:00 by ayarab            #+#    #+#             */
-/*   Updated: 2024/12/17 03:13:21 by ayarab           ###   ########.fr       */
+/*   Updated: 2024/12/21 20:47:19 by ayarab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 #define PHILO_H
+#include <limits.h>
 
-# define MAX_INT 2147483647
-# define MIN_INT -2147483648
+#define EAT "is eating"
+#define FORK "has taken a fork"
+#define SLEEP "is sleeping"
+#define DIED "has died"
+#define THINK "is thinking"
 
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <pthread.h>
+
+
+// typedef struct s_factory
+// {
+	
+// 	t_factory *next;
+// }	t_factory;
+
+typedef struct s_list
+{
+	void			*content;
+	struct s_list	*next;
+}					t_list;
+
+
+// typedef struct s_factory_head
+// {
+// 	t_factory *head;
+// } t_factory_head;
+
+
+
 
 typedef struct s_data
 {
@@ -29,10 +55,24 @@ typedef struct s_data
 	long ttd;
 	long tte;
 	long tts;
-	long nofep; 
+	long nofep;
+	pthread_mutex_t  print;
+	pthread_mutex_t  fork;
+	pthread_mutex_t  ate;
+	pthread_mutex_t  died;
 }   t_data;
 
 
+
+t_list				*ft_lstnew(void *content);
+
+t_list				*ft_lstlast(t_list *lst);
+
+
+void				ft_lstadd_back(t_list **lst, t_list *new);
+
+
+void				ft_lstclear(t_list **lst, void (*del)(void *));
 
 
 
