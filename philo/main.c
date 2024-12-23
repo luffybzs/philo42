@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayarab < ayarab@student.42.fr >            +#+  +:+       +#+        */
+/*   By: ayarab <ayarab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 02:31:38 by ayarab            #+#    #+#             */
-/*   Updated: 2024/12/21 20:42:27 by ayarab           ###   ########.fr       */
+/*   Updated: 2024/12/23 02:44:23 by ayarab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "./inc/philo.h"
 
 int	ft_fill_data(int ac, char **av, t_data *data)
 {
@@ -18,8 +18,6 @@ int	ft_fill_data(int ac, char **av, t_data *data)
 	data->av = av;
 	if (ft_start_parsing(&data) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-
-	
 }
 
 int	ft_check_int(t_data *data, int flag)
@@ -79,7 +77,7 @@ int	ft_start_parsing(t_data *data)
 	return (EXIT_SUCCESS);
 }
 
-int monitor (t_data *data)
+int ft_monitor(t_data *data)
 {
 
 	while(data->philo)
@@ -103,11 +101,11 @@ long ft_custom_usleep()
 
 }
 
-void *ft_routine(void *caca)
+void *ft_routine(void *tread)
 {
 	t_philo *philo;
 
-	philo = (t_philo *) caca;
+	philo = (t_philo *)tread;
 	if (philo->id % 2 == 0)
 		//wait
 	
@@ -126,11 +124,48 @@ void *ft_routine(void *caca)
 	}
 	return 0;
 }
-
-
-int ft_set_table(t_data *data)
+t_data	*ft_init_queue(void)
 {
-	while(philo)
+	t_data	*list;
+
+	list = ft_malloc(sizeof(t_data));
+	if (!list)
+		return (NULL);
+	list->head = NULL;
+	return (list);
+}
+void	ft_add_philo(int id,t_data *data)
+{
+	t_philo *current;
+	t_philo *new;
+
+	new = malloc(sizeof(t_philo));
+	if (new)
+		return ;
+	current = data->head;
+	new->id = id;
+	new->data = data;
+	new->next = NULL;
+	if (!current)
+		current = new;
+	else 
+	{
+		while(current->next)
+			current = current->next;
+		current->next = new;
+	}
+}
+
+
+int ft_set_table(t_data *data, t_philo *philo)
+{
+	int i;
+	i = 0;
+	data->head = ft_init_queue();
+	while(i <= data->nop)
+	{
+		ft_add_philo(i, data)
+	}
 		//create thread
 	
 }
@@ -138,13 +173,14 @@ int ft_set_table(t_data *data)
 int	main(int ac, char **av)
 {
 	t_data data;
-
-	// if (ac ！＝ 6 || ac != 5)
-		// return (ft_putstr_fd("Error\nNot Or Too Many Arguments\n", 2),
-			// (EXIT_FAILURE);
+	t_philo philo;
+	
+	if (ac != 6 && ac != 5)
+		return (ft_putstr_fd("Error\nNot Or Too Many Arguments\n", 2),
+			 EXIT_FAILURE);
 	if (!ft_fill_data(ac, av, &data))
 		return 0;
-	if (!ft_set_table(&data))
+	if (!ft_set_table(&data, &philo))
 		return 0;
 	while(1)
 	{

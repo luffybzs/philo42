@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayarab < ayarab@student.42.fr >            +#+  +:+       +#+        */
+/*   By: ayarab <ayarab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 02:33:00 by ayarab            #+#    #+#             */
-/*   Updated: 2024/12/21 20:47:19 by ayarab           ###   ########.fr       */
+/*   Updated: 2024/12/23 02:42:31 by ayarab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,25 +26,15 @@
 # include <pthread.h>
 
 
-// typedef struct s_factory
-// {
-	
-// 	t_factory *next;
-// }	t_factory;
-
-typedef struct s_list
+typedef struct s_philo
 {
-	void			*content;
-	struct s_list	*next;
-}					t_list;
-
-
-// typedef struct s_factory_head
-// {
-// 	t_factory *head;
-// } t_factory_head;
-
-
+	int		id;
+	
+	t_philo	*next;
+	
+	t_data *data;
+	
+}  t_philo;
 
 
 typedef struct s_data
@@ -60,19 +50,21 @@ typedef struct s_data
 	pthread_mutex_t  fork;
 	pthread_mutex_t  ate;
 	pthread_mutex_t  died;
+	t_philo    *head;
+	
 }   t_data;
 
 
 
-t_list				*ft_lstnew(void *content);
+t_philo				*ft_lstnew(void *content);
 
-t_list				*ft_lstlast(t_list *lst);
-
-
-void				ft_lstadd_back(t_list **lst, t_list *new);
+t_philo				*ft_lstlast(t_philo *lst);
 
 
-void				ft_lstclear(t_list **lst, void (*del)(void *));
+void				ft_lstadd_back(t_philo **lst, t_philo *new);
+
+
+void				ft_lstclear(t_philo **lst, void (*del)(void *));
 
 
 
