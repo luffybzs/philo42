@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayarab <ayarab@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ayarab < ayarab@student.42.fr >            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 02:33:00 by ayarab            #+#    #+#             */
-/*   Updated: 2024/12/23 02:42:31 by ayarab           ###   ########.fr       */
+/*   Updated: 2024/12/23 18:52:55 by ayarab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,45 +26,30 @@
 # include <pthread.h>
 
 
-typedef struct s_philo
-{
-	int		id;
-	
-	t_philo	*next;
-	
-	t_data *data;
-	
-}  t_philo;
 
 
 typedef struct s_data
 {
 	char **av;
 	int ac;
-	long nop;
-	long ttd;
-	long tte;
-	long tts;
-	long nofep;
+	long nb_philos;
+	long time_to_die;
+	long time_to_eat;
+	long time_to_sleep;
+	long nb_must_eat;
 	pthread_mutex_t  print;
-	pthread_mutex_t  fork;
-	pthread_mutex_t  ate;
 	pthread_mutex_t  died;
-	t_philo    *head;
-	
 }   t_data;
 
-
-
-t_philo				*ft_lstnew(void *content);
-
-t_philo				*ft_lstlast(t_philo *lst);
-
-
-void				ft_lstadd_back(t_philo **lst, t_philo *new);
-
-
-void				ft_lstclear(t_philo **lst, void (*del)(void *));
+typedef struct s_philo
+{
+	int				id;
+	pthread_t       thread;
+	pthread_mutex_t	l_fork;
+	pthread_mutex_t	*r_fork;
+	t_data			*data;
+	
+}  t_philo;
 
 
 
