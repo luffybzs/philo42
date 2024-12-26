@@ -6,7 +6,7 @@
 /*   By: ayarab < ayarab@student.42.fr >            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 02:33:00 by ayarab            #+#    #+#             */
-/*   Updated: 2024/12/23 18:52:55 by ayarab           ###   ########.fr       */
+/*   Updated: 2024/12/26 17:28:49 by ayarab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,6 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <pthread.h>
-
-
-
 
 typedef struct s_data
 {
@@ -51,9 +48,12 @@ typedef struct s_philo
 	
 }  t_philo;
 
-
-
+void	ft_pthread_join_all(t_philo *philos);
+int	ft_fill_data(int ac, char **av, t_data *data);
+int	ft_start_parsing(t_data *data);
 long ft_atoi_spe(char *str);
 void ft_putstr_fd(char *str, int fd);
-
+int	ft_check_int(t_data *data, int flag);
+int	ft_is_num(t_data *data);
+int	ft_start_parsing(t_data *data);
 #endif
