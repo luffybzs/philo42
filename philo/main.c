@@ -6,23 +6,35 @@
 /*   By: ayarab < ayarab@student.42.fr >            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 02:31:38 by ayarab            #+#    #+#             */
-/*   Updated: 2024/12/26 17:34:01 by ayarab           ###   ########.fr       */
+/*   Updated: 2024/12/26 20:38:26 by ayarab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./inc/philo.h"
+
+bool	ft_status_died(t_philo *philo)
+{
+	int	status;
+
+	pthread_mutex_lock(&philo->data->died);
+	status = philo->data->is_dead;
+	pthread_mutex_unlock(&philo->data->died);
+	return (status);
+}
 
 void	*ft_routine(void *thread)
 {
 	t_philo	*philo;
 
 	philo = (t_philo *)thread;
-	printf(" le id du philo %d\n", philo->id);
+	pthread_mutex_lock(&philo->data->print);
+	printf("le id : %d and var died = %d\n", philo->id, philo->data->is_dead);
+	pthread_mutex_unlock(&philo->data->print);
 	// if (philo->id % 2 == 0)
-	// 	//wait
+	// 		wait
 	// while(1)
 	// {
-	// 	if (!ft_dead(philo))
+	//	if (!ft_dead(philo))
 	// 		break ;
 	// 	if (!ft_eat(philo))
 	// 		break ;
@@ -32,7 +44,7 @@ void	*ft_routine(void *thread)
 	// 		break ;
 	// 	if (!ft_repu(philo))
 	// 		break ;
-	// }
+	//}
 	return (0);
 }
 
@@ -41,6 +53,9 @@ int	ft_monitor(t_philo *philos, t_data *data)
 	int	i;
 
 	i = 0;
+	pthread_mutex_init(&data->died, NULL);
+	pthread_mutex_init(&data->print, NULL);
+	data->is_dead = false;
 	while (i < data->nb_philos)
 	{
 		pthread_create(&philos[i].thread, NULL, &ft_routine, &philos[i]);

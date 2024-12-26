@@ -6,7 +6,7 @@
 /*   By: ayarab < ayarab@student.42.fr >            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 02:33:00 by ayarab            #+#    #+#             */
-/*   Updated: 2024/12/26 17:28:49 by ayarab           ###   ########.fr       */
+/*   Updated: 2024/12/26 20:30:05 by ayarab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 
 # include <unistd.h>
 # include <stdio.h>
+# include <stdbool.h>
 # include <stdlib.h>
 # include <pthread.h>
 
@@ -34,6 +35,7 @@ typedef struct s_data
 	long time_to_eat;
 	long time_to_sleep;
 	long nb_must_eat;
+	bool is_dead;
 	pthread_mutex_t  print;
 	pthread_mutex_t  died;
 }   t_data;
