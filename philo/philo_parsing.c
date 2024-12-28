@@ -6,7 +6,7 @@
 /*   By: ayarab < ayarab@student.42.fr >            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 02:33:06 by ayarab            #+#    #+#             */
-/*   Updated: 2024/12/26 17:27:22 by ayarab           ###   ########.fr       */
+/*   Updated: 2024/12/28 19:25:22 by ayarab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,14 @@
 
 int	ft_fill_data(int ac, char **av, t_data *data)
 {
+	struct timeval start;
 	data->ac = ac;
 	data->av = av;
 	if (ft_start_parsing(data) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
+	if (gettimeofday(&start, NULL) == -1)
+		return (EXIT_FAILURE);
+	data->start_time = ((start.tv_sec * 1000) + (start.tv_usec / 1000));
 	return (EXIT_SUCCESS);
 }
 

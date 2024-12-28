@@ -6,7 +6,7 @@
 /*   By: ayarab < ayarab@student.42.fr >            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 02:33:00 by ayarab            #+#    #+#             */
-/*   Updated: 2024/12/26 20:30:05 by ayarab           ###   ########.fr       */
+/*   Updated: 2024/12/28 21:12:44 by ayarab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@
 #define SLEEP "is sleeping"
 #define DIED "has died"
 #define THINK "is thinking"
-
+# include "sys/wait.h"
+# include <sys/time.h>
 # include <unistd.h>
 # include <stdio.h>
 # include <stdbool.h>
@@ -30,6 +31,7 @@ typedef struct s_data
 {
 	char **av;
 	int ac;
+	long long start_time;
 	long nb_philos;
 	long time_to_die;
 	long time_to_eat;
