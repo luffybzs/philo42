@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayarab < ayarab@student.42.fr >            +#+  +:+       +#+        */
+/*   By: ayarab <ayarab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 02:31:38 by ayarab            #+#    #+#             */
-/*   Updated: 2024/12/28 22:46:56 by ayarab           ###   ########.fr       */
+/*   Updated: 2024/12/29 04:09:24 by ayarab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,23 +40,31 @@ int ft_printf_philos(t_philo *philos, char *str)
 	return (EXIT_SUCCESS);
 }
 
-int ft_sleep(int time, t_philo *philos)
+int ft_sleep(t_philo *philos, long time)
 {
+	long start;
 	
+	start = ft_time(philos->data);
+	while ((ft_time(philos->data) - start) < time)  
+	{
+		if (ft_status_died(philos) == true)
+			break;
+		usleep(10);
+	}
+	return (EXIT_SUCCESS);
 }
 
 int ft_eat(t_philo *philos)
 {
 	
-	pthread_mutex_lock(&philos->l_fork);
-	ft_printf_philos(philos, FORK); 
 	pthread_mutex_lock(philos->r_fork);
+	ft_printf_philos(philos, FORK); 
+	pthread_mutex_lock(&philos->l_fork);
 	ft_printf_philos(philos, FORK);
 	ft_printf_philos(philos, EAT);
-	usleep(philos->data->time_to_eat * 1000); 
-	pthread_mutex_unlock(&philos->l_fork);
+	ft_sleep(philos, philos->data->time_to_eat); 
 	pthread_mutex_unlock(philos->r_fork);
-	
+	pthread_mutex_unlock(&philos->l_fork);
 	return (EXIT_SUCCESS);
 }
 
@@ -69,8 +77,8 @@ void	*ft_routine(void *thread)
 	//long time;
 	//time = ft_time(philo->data);
 	//printf("le id : %d and time = %ld\n", philo->id, time);
-	// if (philo->id % 2 == 0)
-	// 		wait
+	if (philo->id % 2 == 0)
+			ft_sleep(philo, 2);
 	 while(1)
 	 {
 		//if (!ft_dead(philo))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayarab < ayarab@student.42.fr >            +#+  +:+       +#+        */
+/*   By: ayarab <ayarab@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 02:33:00 by ayarab            #+#    #+#             */
-/*   Updated: 2024/12/28 21:12:44 by ayarab           ###   ########.fr       */
+/*   Updated: 2024/12/29 03:40:08 by ayarab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #define SLEEP "is sleeping"
 #define DIED "has died"
 #define THINK "is thinking"
-# include "sys/wait.h"
+# include <sys/wait.h>
 # include <sys/time.h>
 # include <unistd.h>
 # include <stdio.h>
