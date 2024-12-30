@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayarab <ayarab@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ayarab < ayarab@student.42.fr >            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 02:31:38 by ayarab            #+#    #+#             */
-/*   Updated: 2024/12/29 04:09:24 by ayarab           ###   ########.fr       */
+/*   Updated: 2024/12/30 18:35:27 by ayarab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,14 @@ long ft_time(t_data *data)
 	now_time = ((now.tv_sec * 1000) + (now.tv_usec / 1000));
 	return(now_time - data->start_time);
 }
+int ft_philos_sleep(t_philo *philos)
+{
+	ft_printf_philos(philos, SLEEP);
+	ft_sleep(philos, philos->data->time_to_sleep);
+	return (EXIT_SUCCESS);
+}
+
+
 
 int ft_printf_philos(t_philo *philos, char *str)
 {
@@ -49,25 +57,39 @@ int ft_sleep(t_philo *philos, long time)
 	{
 		if (ft_status_died(philos) == true)
 			break;
-		usleep(10);
+		usleep(100);
 	}
 	return (EXIT_SUCCESS);
 }
 
 int ft_eat(t_philo *philos)
 {
-	
 	pthread_mutex_lock(philos->r_fork);
 	ft_printf_philos(philos, FORK); 
 	pthread_mutex_lock(&philos->l_fork);
 	ft_printf_philos(philos, FORK);
 	ft_printf_philos(philos, EAT);
 	ft_sleep(philos, philos->data->time_to_eat); 
+	philos->last_eat = ft_time(philos->data);
 	pthread_mutex_unlock(philos->r_fork);
 	pthread_mutex_unlock(&philos->l_fork);
 	return (EXIT_SUCCESS);
 }
-
+int ft_dead(t_philo *philos)
+{
+	long start;
+	
+	start = ft_time(philos->data);
+	if ((start - philos->last_eat) >= philos->data->time_to_die)
+	{
+		pthread_mutex_lock(&philos->data->died);
+		ft_printf_philos(philos, DIED);
+		philos->data->is_dead = true;
+		pthread_mutex_unlock(&philos->data->died);
+		return (EXIT_FAILURE);
+	}
+	return(EXIT_SUCCESS);
+}
 
 
 void	*ft_routine(void *thread)
@@ -81,12 +103,12 @@ void	*ft_routine(void *thread)
 			ft_sleep(philo, 2);
 	 while(1)
 	 {
-		//if (!ft_dead(philo))
-	 	//	break ;
-	 	if (!ft_eat(philo))
+		if (ft_dead(philo) == EXIT_FAILURE)
 	 		break ;
-	 	//if (!ft_sleep(philo))
-	 	//	break ;
+	 	if (ft_eat(philo) == EXIT_FAILURE)
+	 		break ;
+	 	if (ft_philos_sleep(philo) == EXIT_FAILURE)
+	 		break ;
 	 	//if (!ft_think(philo))
 	 	//	break ;
 	 	//if (!ft_repu(philo))
@@ -107,7 +129,11 @@ int	ft_create_thread_and_mutex(t_philo *philos, t_data *data)
 	{
 		if (pthread_create(&philos[i].thread, NULL, &ft_routine,
 				&philos[i]) != 0)
-			return (EXIT_FAILURE);
+			{
+				philos[i].launch = false;
+				return (EXIT_FAILURE);
+			}
+		philos[i].launch = true;	
 		i++;
 	}
 	return (EXIT_SUCCESS);
@@ -148,7 +174,7 @@ int	ft_set_table(t_data *data, t_philo **philos)
 int	main(int ac, char **av)
 {
 	t_data	data;
-	t_philo	*philos;
+	t_philo	*philos = {0};
 
 	if (ac != 6 && ac != 5)
 		return (ft_putstr_fd("Error\nNot Or Too Many Arguments\n", 2),

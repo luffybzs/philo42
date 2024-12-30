@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayarab <ayarab@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ayarab < ayarab@student.42.fr >            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 02:33:00 by ayarab            #+#    #+#             */
-/*   Updated: 2024/12/29 03:40:08 by ayarab           ###   ########.fr       */
+/*   Updated: 2024/12/30 18:32:29 by ayarab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # include <stdbool.h>
 # include <stdlib.h>
 # include <pthread.h>
-
+#include <string.h>
 typedef struct s_data
 {
 	char **av;
@@ -45,13 +45,16 @@ typedef struct s_data
 typedef struct s_philo
 {
 	int				id;
+	bool 			launch;
 	pthread_t       thread;
 	pthread_mutex_t	l_fork;
 	pthread_mutex_t	*r_fork;
 	t_data			*data;
+	unsigned int last_eat;
 	
 }  t_philo;
-
+int ft_sleep(t_philo *philos, long time);
+int ft_printf_philos(t_philo *philos, char *str);
 void	ft_pthread_join_all(t_philo *philos);
 int	ft_fill_data(int ac, char **av, t_data *data);
 int	ft_start_parsing(t_data *data);

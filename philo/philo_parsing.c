@@ -6,7 +6,7 @@
 /*   By: ayarab < ayarab@student.42.fr >            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 02:33:06 by ayarab            #+#    #+#             */
-/*   Updated: 2024/12/28 19:25:22 by ayarab           ###   ########.fr       */
+/*   Updated: 2024/12/30 18:21:35 by ayarab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,8 @@ void	ft_pthread_join_all(t_philo *philos)
 	i = 0;
 	while (i < philos->data->nb_philos)
 	{
-		pthread_join(philos[i].thread, NULL);
+		if (philos->launch == true)
+			pthread_join(philos[i].thread, NULL);
 		i++;
 	}
 }
