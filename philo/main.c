@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wdaoudi- <wdaoudi-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ayarab < ayarab@student.42.fr >            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 02:31:38 by ayarab            #+#    #+#             */
-/*   Updated: 2024/12/31 14:06:26 by wdaoudi-         ###   ########.fr       */
+/*   Updated: 2024/12/31 16:16:10 by ayarab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,14 @@ long	ft_time(t_data *data)
 }
 int	ft_philos_sleep(t_philo *philos)
 {
-	ft_dead(philos);
+	if (ft_dead(philos) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
 	ft_printf_philos(philos, SLEEP);
-	ft_dead(philos);
+	if (ft_dead(philos) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
 	ft_sleep(philos, philos->data->time_to_sleep);
-	ft_dead(philos);
+	if (ft_dead(philos) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
@@ -62,25 +65,42 @@ int	ft_sleep(t_philo *philos, long time)
 	}
 	return (EXIT_SUCCESS);
 }
+void ft_unlock(t_philo *philos, int value)
+{
+	if (value == 1)
+		pthread_mutex_unlock(philos->r_fork);
+	if (value == 2)
+	{
+		pthread_mutex_unlock(philos->r_fork);
+		pthread_mutex_unlock(&philos->l_fork);
+	}	
+}
 
 int	ft_eat(t_philo *philos)
 {
-	ft_dead(philos);
+	if (ft_dead(philos) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
 	pthread_mutex_lock(philos->r_fork);
-	ft_dead(philos);
+	if (ft_dead(philos) == EXIT_FAILURE)
+		return (ft_unlock(philos, 1), EXIT_FAILURE);
 	ft_printf_philos(philos, FORK);
-	ft_dead(philos);
+	if (ft_dead(philos) == EXIT_FAILURE)
+		return (ft_unlock(philos, 2), EXIT_FAILURE);
 	pthread_mutex_lock(&philos->l_fork);
-	ft_dead(philos);
+	if (ft_dead(philos) == EXIT_FAILURE)
+		return (ft_unlock(philos, 2) ,EXIT_FAILURE);
 	ft_printf_philos(philos, FORK);
 	ft_printf_philos(philos, EAT);
-	ft_dead(philos);
+	if (ft_dead(philos) == EXIT_FAILURE)
+		return (ft_unlock(philos, 2), EXIT_FAILURE);
 	ft_sleep(philos, philos->data->time_to_eat);
-	ft_dead(philos);
+	if (ft_dead(philos) == EXIT_FAILURE)
+		return (ft_unlock(philos, 2), EXIT_FAILURE);
 	philos->last_eat = ft_time(philos->data);
 	pthread_mutex_unlock(philos->r_fork);
 	pthread_mutex_unlock(&philos->l_fork);
-	ft_dead(philos);
+	if (ft_dead(philos) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 int	ft_dead(t_philo *philos)
@@ -95,7 +115,7 @@ int	ft_dead(t_philo *philos)
 	if ((start - last_meal_time) >= philos->data->time_to_die)
 	{
 		pthread_mutex_lock(&philos->data->died);
-		if (&philos->data->died == false)
+		if (philos->data->is_dead == false)
 		{
 			ft_printf_philos(philos, DIED);
 			philos->data->is_dead = true;
@@ -111,9 +131,6 @@ void	*ft_routine(void *thread)
 	t_philo	*philo;
 
 	philo = (t_philo *)thread;
-	//long time;
-	//time = ft_time(philo->data);
-	//printf("le id : %d and time = %ld\n", philo->id, time);
 	if (philo->id % 2 == 0)
 		ft_sleep(philo, 2);
 	while (1)
@@ -122,15 +139,13 @@ void	*ft_routine(void *thread)
 			break ;
 		if (ft_eat(philo) == EXIT_FAILURE)
 			break ;
-		//if (philo->number_of_meal == philo->data->nb_must_eat)
-		//printf("philo[%d], ate %d meal", philo->id, philo->number_of_meal);
+		// if (philo->number_of_meal == philo->data->nb_must_eat)
+		// printf("philo[%d], ate %d meal", philo->id, philo->number_of_meal);
 		// break ; //ajouter dans la structure philo un compteur de repas
 		if (ft_philos_sleep(philo) == EXIT_FAILURE)
 			break ;
-		//if (!ft_think(philo))
-		//	break ;
-		//if (!ft_repu(philo))
-		//	break ;
+		if (ft_think(philo) == EXIT_FAILURE)
+			break ;
 	}
 	return (0);
 }
@@ -157,31 +172,21 @@ int	ft_create_thread_and_mutex(t_philo *philos, t_data *data)
 	return (EXIT_SUCCESS);
 }
 
-/*
-long	ft_custom_usleep(void)
+int	ft_think(t_philo *philo)
 {
-	while()
-	{
-		dead(dead);
-		usleep(10);
-	}
+	if (ft_dead(philo) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	if (ft_printf_philos(philo, THINK) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	if (ft_dead(philo) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	if (philo->data->nb_philos % 2 == 0)
+		ft_sleep(philo, philo->data->time_to_eat - philo->data->time_to_sleep);
+	else
+		ft_sleep(philo, (2 * philo->data->time_to_eat)
+			- philo->data->time_to_sleep);
+	return (EXIT_SUCCESS);
 }
-*/
-// int	think(t_philo *philo)
-// {
-// 	if (ft_dead(philo) == EXIT_FAILURE)
-// 		return (EXIT_FAILURE);
-// 	if (ft_printf_philos(philo, THINK) == EXIT_FAILURE)
-// 		return (EXIT_FAILURE);
-// 	if (ft_dead(philo) == EXIT_FAILURE)
-// 		return (EXIT_FAILURE);
-// 	if (philo->data->nb_philos % 2 == 0)
-// 		ft_sleep(philo, philo->data->time_to_eat - philo->data->time_to_sleep);
-// 	else
-// 		ft_usleep(philo, (2 * philo->data->time_to_eat)
-// 				- philo->data->time_to_sleep);
-// 	return (EXIT_SUCCESS);
-// }
 
 int	ft_set_table(t_data *data, t_philo **philos)
 {
@@ -207,19 +212,16 @@ int	ft_set_table(t_data *data, t_philo **philos)
 int	main(int ac, char **av)
 {
 	t_data	data;
-	t_philo	*philos;
-
-	philos = {0};
+	t_philo	*philos = {0};
 	if (ac != 6 && ac != 5)
 		return (ft_putstr_fd("Error\nNot Or Too Many Arguments\n", 2),
-				EXIT_FAILURE);
+			EXIT_FAILURE);
 	if (ft_fill_data(ac, av, &data) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	if (ft_set_table(&data, &philos) == EXIT_FAILURE)
 		return (free(philos), EXIT_FAILURE);
 	if (ft_create_thread_and_mutex(philos, &data) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-	//ft_monitor(philos, &data);
+		return (free(philos), EXIT_FAILURE);
 	ft_pthread_join_all(philos);
 	return (free(philos), EXIT_SUCCESS);
 }

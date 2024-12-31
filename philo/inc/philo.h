@@ -6,7 +6,7 @@
 /*   By: ayarab < ayarab@student.42.fr >            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 02:33:00 by ayarab            #+#    #+#             */
-/*   Updated: 2024/12/30 18:32:29 by ayarab           ###   ########.fr       */
+/*   Updated: 2024/12/31 15:10:45 by ayarab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ typedef struct s_philo
 	unsigned int last_eat;
 	
 }  t_philo;
+int	ft_think(t_philo *philo);
+int	ft_dead(t_philo *philos);
 int ft_sleep(t_philo *philos, long time);
 int ft_printf_philos(t_philo *philos, char *str);
 void	ft_pthread_join_all(t_philo *philos);
