@@ -6,7 +6,7 @@
 /*   By: ayarab < ayarab@student.42.fr >            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 02:33:00 by ayarab            #+#    #+#             */
-/*   Updated: 2024/12/31 18:23:26 by ayarab           ###   ########.fr       */
+/*   Updated: 2024/12/31 19:17:41 by ayarab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # define EAT "is eating"
 # define FORK "has taken a fork"
 # define SLEEP "is sleeping"
-# define DIED "has died"
+# define DIED " died"
 # define THINK "is thinking"
 # include <pthread.h>
 # include <stdbool.h>
@@ -45,12 +45,14 @@ typedef struct s_data
 typedef struct s_philo
 {
 	int				id;
+	int				nb_eat;
 	bool			launch;
 	pthread_t		thread;
 	pthread_mutex_t	l_fork;
 	pthread_mutex_t	*r_fork;
 	t_data			*data;
 	unsigned int	last_eat;
+	pthread_mutex_t	lse;
 
 }					t_philo;
 

@@ -6,7 +6,7 @@
 /*   By: ayarab < ayarab@student.42.fr >            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/31 18:10:35 by ayarab            #+#    #+#             */
-/*   Updated: 2024/12/31 18:23:34 by ayarab           ###   ########.fr       */
+/*   Updated: 2024/12/31 19:21:35 by ayarab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,12 @@ int	ft_sleep(t_philo *philos, long time)
 	}
 	return (EXIT_SUCCESS);
 }
+void ft_last_eat(t_philo *philos)
+{
+    pthread_mutex_lock(&philos->lse);
+    philos->last_eat = ft_time(philos->data);
+    pthread_mutex_unlock(&philos->lse);
+}
 
 int	ft_eat(t_philo *philos)
 {
@@ -59,13 +65,14 @@ int	ft_eat(t_philo *philos)
 	ft_sleep(philos, philos->data->time_to_eat);
 	if (ft_dead(philos) == EXIT_FAILURE)
 		return (ft_unlock(philos, 2), EXIT_FAILURE);
-	philos->last_eat = ft_time(philos->data);
+    ft_last_eat(philos);
 	pthread_mutex_unlock(philos->r_fork);
 	pthread_mutex_unlock(&philos->l_fork);
 	if (ft_dead(philos) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
+
 int	ft_dead(t_philo *philos)
 {
 	long	start;
@@ -93,6 +100,8 @@ void	*ft_routine(void *thread)
 	t_philo *philo;
 
 	philo = (t_philo *)thread;
+	if (ft_printf_philos(philo, THINK) == EXIT_FAILURE)
+		return (0);
 	if (philo->id % 2 == 0)
 		ft_sleep(philo, 2);
 	while (1)

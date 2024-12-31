@@ -6,7 +6,7 @@
 /*   By: ayarab < ayarab@student.42.fr >            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 02:31:38 by ayarab            #+#    #+#             */
-/*   Updated: 2024/12/31 18:24:05 by ayarab           ###   ########.fr       */
+/*   Updated: 2024/12/31 19:18:18 by ayarab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int	ft_create_thread_and_mutex(t_philo *philos, t_data *data)
 	i = 0;
 	pthread_mutex_init(&data->died, NULL);
 	pthread_mutex_init(&data->print, NULL);
+	pthread_mutex_init(&philos->lse, NULL);
 	data->is_dead = false;
 	while (i < data->nb_philos)
 	{
