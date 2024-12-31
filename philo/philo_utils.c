@@ -6,7 +6,7 @@
 /*   By: ayarab < ayarab@student.42.fr >            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/31 18:18:29 by ayarab            #+#    #+#             */
-/*   Updated: 2024/12/31 18:23:36 by ayarab           ###   ########.fr       */
+/*   Updated: 2024/12/31 21:23:19 by ayarab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,18 +31,18 @@ int	ft_think(t_philo *philo)
 void	ft_unlock(t_philo *philos, int value)
 {
 	if (value == 1)
-		pthread_mutex_unlock(philos->r_fork);
-	if (value == 2)
+		pthread_mutex_unlock(&(philos->l_fork));
+	else if  (value == 2)
 	{
 		pthread_mutex_unlock(philos->r_fork);
-		pthread_mutex_unlock(&philos->l_fork);
+		pthread_mutex_unlock(&(philos->l_fork));
 	}
 }
 
 int	ft_printf_philos(t_philo *philos, char *str)
 {
-	pthread_mutex_lock(&philos->data->print);
+	pthread_mutex_lock(&(philos->data->print));
 	printf("%ld %d %s\n", ft_time(philos->data), philos->id, str);
-	pthread_mutex_unlock(&philos->data->print);
+	pthread_mutex_unlock(&(philos->data->print));
 	return (EXIT_SUCCESS);
 }

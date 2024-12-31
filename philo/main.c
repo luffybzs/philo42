@@ -6,7 +6,7 @@
 /*   By: ayarab < ayarab@student.42.fr >            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 02:31:38 by ayarab            #+#    #+#             */
-/*   Updated: 2024/12/31 19:18:18 by ayarab           ###   ########.fr       */
+/*   Updated: 2024/12/31 21:49:30 by ayarab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	ft_set_table(t_data *data, t_philo **philos)
 	{
 		tab[i].id = i + 1;
 		tab[i].data = data;
-		pthread_mutex_init(&tab[i].l_fork, NULL);
+		pthread_mutex_init(&(tab[i].l_fork), NULL);
 		tab[i].r_fork = &tab[(i + 1) % data->nb_philos].l_fork;
 		i++;
 	}
@@ -80,6 +80,8 @@ int	main(int ac, char **av)
 {
 	t_data	data;
 	t_philo	*philos = {0};
+
+	// philos = {0};
 	if (ac != 6 && ac != 5)
 		return (ft_putstr_fd("Error\nNot Or Too Many Arguments\n", 2),
 			EXIT_FAILURE);
