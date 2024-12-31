@@ -6,7 +6,7 @@
 /*   By: ayarab < ayarab@student.42.fr >            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 02:33:06 by ayarab            #+#    #+#             */
-/*   Updated: 2024/12/30 18:21:35 by ayarab           ###   ########.fr       */
+/*   Updated: 2024/12/31 18:23:31 by ayarab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 int	ft_fill_data(int ac, char **av, t_data *data)
 {
-	struct timeval start;
+	struct timeval	start;
+
 	data->ac = ac;
 	data->av = av;
 	if (ft_start_parsing(data) == EXIT_FAILURE)

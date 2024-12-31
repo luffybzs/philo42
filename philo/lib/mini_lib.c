@@ -6,31 +6,31 @@
 /*   By: ayarab < ayarab@student.42.fr >            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 02:45:39 by ayarab            #+#    #+#             */
-/*   Updated: 2024/12/21 20:47:46 by ayarab           ###   ########.fr       */
+/*   Updated: 2024/12/31 18:23:48 by ayarab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void ft_putstr_fd(char *str, int fd)
+void	ft_putstr_fd(char *str, int fd)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!str)
 		return ;
 	while (str[i])
 	{
-		write(fd,  &str[i], 1);
+		write(fd, &str[i], 1);
 		i++;
 	}
 }
 
-long ft_atoi_spe(char *str)
+long	ft_atoi_spe(char *str)
 {
-	int i;
-	int sign;
-	long res;
+	int		i;
+	int		sign;
+	long	res;
 
 	i = 0;
 	sign = 1;
@@ -42,7 +42,7 @@ long ft_atoi_spe(char *str)
 		if (str[i] == '-')
 			sign = -sign;
 		i++;
-	}	
+	}
 	while (str[i] && str[i] >= '0' && str[i] <= '9')
 	{
 		res *= 10;

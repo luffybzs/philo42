@@ -6,12 +6,12 @@
 #    By: ayarab < ayarab@student.42.fr >            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/17 02:38:31 by ayarab            #+#    #+#              #
-#    Updated: 2024/12/31 16:05:38 by ayarab           ###   ########.fr        #
+#    Updated: 2024/12/31 18:22:58 by ayarab           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
-SRCS =	main.c philo_parsing.c  lib/mini_lib.c
+SRCS =	main.c philo_parsing.c  lib/mini_lib.c philo_routine.c philo_utils.c
 
 OBJS = $(SRCS:.c=.o)
 
