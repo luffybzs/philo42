@@ -6,7 +6,7 @@
 /*   By: ayarab < ayarab@student.42.fr >            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/31 18:10:35 by ayarab            #+#    #+#             */
-/*   Updated: 2024/12/31 21:50:34 by ayarab           ###   ########.fr       */
+/*   Updated: 2025/01/01 16:17:11 by ayarab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,56 +38,6 @@ int	ft_sleep(t_philo *philos, long time)
 	}
 	return (EXIT_SUCCESS);
 }
-void	ft_last_eat(t_philo *philos)
-{
-	pthread_mutex_lock(&philos->lse);
-	philos->last_eat = ft_time(philos->data);
-	pthread_mutex_unlock(&philos->lse);
-}
-
-int	ft_eat(t_philo *philos)
-{
-	if (ft_dead(philos) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-	if (philos->id + 1 == philos->data->nb_philos)
-	{
-		pthread_mutex_lock(philos->r_fork);
-		pthread_mutex_lock(&(philos->l_fork));
-	}
-	else
-	{
-		pthread_mutex_lock(&(philos->l_fork));
-		if (ft_dead(philos) == EXIT_FAILURE)
-			return (ft_unlock(philos, 1), EXIT_FAILURE);
-		ft_printf_philos(philos, FORK);
-		if (ft_dead(philos) == EXIT_FAILURE)
-			return (ft_unlock(philos, 1), EXIT_FAILURE);
-		pthread_mutex_lock(philos->r_fork);
-	}
-	if (ft_dead(philos) == EXIT_FAILURE)
-		return (ft_unlock(philos, 2), EXIT_FAILURE);
-	ft_printf_philos(philos, FORK);
-	if (ft_dead(philos) == EXIT_FAILURE)
-		return (ft_unlock(philos, 2), EXIT_FAILURE);
-	ft_printf_philos(philos, EAT);
-	ft_sleep(philos, philos->data->time_to_eat);
-	 if (ft_dead(philos) == EXIT_FAILURE)
-	 	return (ft_unlock(philos, 2), EXIT_FAILURE);
-	if (philos->id + 1 == philos->data->nb_philos)
-	{
-		pthread_mutex_unlock(philos->r_fork);
-		pthread_mutex_unlock(&(philos->l_fork));
-	}
-	else
-	{
-		pthread_mutex_unlock(&(philos->l_fork));
-		pthread_mutex_unlock(philos->r_fork);
-	}
-	ft_last_eat(philos);
-	if (ft_dead(philos) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-	return (EXIT_SUCCESS);
-}
 
 int	ft_dead(t_philo *philos)
 {
@@ -111,9 +61,10 @@ int	ft_dead(t_philo *philos)
 	}
 	return (EXIT_SUCCESS);
 }
+
 void	*ft_routine(void *thread)
 {
-	t_philo *philo;
+	t_philo	*philo;
 
 	philo = (t_philo *)thread;
 	if (ft_printf_philos(philo, THINK) == EXIT_FAILURE)

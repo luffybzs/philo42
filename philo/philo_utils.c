@@ -6,7 +6,7 @@
 /*   By: ayarab < ayarab@student.42.fr >            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/31 18:18:29 by ayarab            #+#    #+#             */
-/*   Updated: 2024/12/31 21:23:19 by ayarab           ###   ########.fr       */
+/*   Updated: 2025/01/01 16:14:52 by ayarab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,14 @@ void	ft_unlock(t_philo *philos, int value)
 {
 	if (value == 1)
 		pthread_mutex_unlock(&(philos->l_fork));
-	else if  (value == 2)
+	if (value == 2)
+	{
+		pthread_mutex_unlock(&(philos->l_fork));
+		pthread_mutex_unlock(philos->r_fork);
+	}
+	if (value == 3)
+		pthread_mutex_unlock(philos->r_fork);
+	if (value == 4)
 	{
 		pthread_mutex_unlock(philos->r_fork);
 		pthread_mutex_unlock(&(philos->l_fork));

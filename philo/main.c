@@ -6,7 +6,7 @@
 /*   By: ayarab < ayarab@student.42.fr >            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 02:31:38 by ayarab            #+#    #+#             */
-/*   Updated: 2024/12/31 21:49:30 by ayarab           ###   ########.fr       */
+/*   Updated: 2025/01/01 16:40:25 by ayarab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ bool	ft_status_died(t_philo *philo)
 	pthread_mutex_unlock(&philo->data->died);
 	return (status);
 }
+
 long	ft_time(t_data *data)
 {
 	struct timeval	now;
@@ -39,7 +40,6 @@ int	ft_create_thread_and_mutex(t_philo *philos, t_data *data)
 	i = 0;
 	pthread_mutex_init(&data->died, NULL);
 	pthread_mutex_init(&data->print, NULL);
-	pthread_mutex_init(&philos->lse, NULL);
 	data->is_dead = false;
 	while (i < data->nb_philos)
 	{
@@ -66,6 +66,7 @@ int	ft_set_table(t_data *data, t_philo **philos)
 	i = 0;
 	while (i < data->nb_philos)
 	{
+		memset(&tab[i], 0, sizeof(t_philo));
 		tab[i].id = i + 1;
 		tab[i].data = data;
 		pthread_mutex_init(&(tab[i].l_fork), NULL);
@@ -79,9 +80,8 @@ int	ft_set_table(t_data *data, t_philo **philos)
 int	main(int ac, char **av)
 {
 	t_data	data;
-	t_philo	*philos = {0};
+	t_philo	*philos;
 
-	// philos = {0};
 	if (ac != 6 && ac != 5)
 		return (ft_putstr_fd("Error\nNot Or Too Many Arguments\n", 2),
 			EXIT_FAILURE);

@@ -6,7 +6,7 @@
 /*   By: ayarab < ayarab@student.42.fr >            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 02:33:06 by ayarab            #+#    #+#             */
-/*   Updated: 2024/12/31 18:23:31 by ayarab           ###   ########.fr       */
+/*   Updated: 2025/01/01 16:16:05 by ayarab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ int	ft_start_parsing(t_data *data)
 		return (ft_putstr_fd("Error\nValue\n", 2), EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
+
 void	ft_pthread_join_all(t_philo *philos)
 {
 	int	i;

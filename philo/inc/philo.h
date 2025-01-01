@@ -6,19 +6,20 @@
 /*   By: ayarab < ayarab@student.42.fr >            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 02:33:00 by ayarab            #+#    #+#             */
-/*   Updated: 2024/12/31 19:17:41 by ayarab           ###   ########.fr       */
+/*   Updated: 2025/01/01 16:21:22 by ayarab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
-# include <limits.h>
 
 # define EAT "is eating"
 # define FORK "has taken a fork"
 # define SLEEP "is sleeping"
 # define DIED " died"
 # define THINK "is thinking"
+
+# include <limits.h>
 # include <pthread.h>
 # include <stdbool.h>
 # include <stdio.h>
@@ -27,6 +28,7 @@
 # include <sys/time.h>
 # include <sys/wait.h>
 # include <unistd.h>
+
 typedef struct s_data
 {
 	char			**av;
@@ -52,10 +54,11 @@ typedef struct s_philo
 	pthread_mutex_t	*r_fork;
 	t_data			*data;
 	unsigned int	last_eat;
-	pthread_mutex_t	lse;
-
 }					t_philo;
 
+void				ft_last_eat(t_philo *philos);
+int					ft_eat_v1(t_philo *philos);
+int					ft_last_philos(t_philo *philos);
 void				ft_unlock(t_philo *philos, int value);
 int					ft_set_table(t_data *data, t_philo **philos);
 int					ft_create_thread_and_mutex(t_philo *philos, t_data *data);
