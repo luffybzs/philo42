@@ -17,7 +17,7 @@ OBJS = $(SRCS:.c=.o)
 
 CC = cc -g3
 RM = rm -f
-CFLAGS = -Wall -Wextra -Werror -Iinc
+CFLAGS = -Wall -Wextra -Werror -Iinc -fsanitize=thread
 
 NAME = philo
 

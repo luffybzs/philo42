@@ -80,12 +80,14 @@ int	ft_eat(t_philo *philos)
 	if (philos->id + 1 == philos->data->nb_philos)
 	{
 		if (ft_last_philos(philos) == EXIT_FAILURE)
-			return (EXIT_SUCCESS);
+			return (EXIT_FAILURE);
+		philos->nb_eat += 1;
 	}
 	else
 	{
 		if (ft_eat_v1(philos) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
+		philos->nb_eat += 1;
 	}
 	return (EXIT_SUCCESS);
 }

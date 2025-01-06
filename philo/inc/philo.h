@@ -39,6 +39,7 @@ typedef struct s_data
 	long			time_to_eat;
 	long			time_to_sleep;
 	long			nb_must_eat;
+	int				sixth_arg;
 	bool			is_dead;
 	pthread_mutex_t	print;
 	pthread_mutex_t	died;
@@ -76,7 +77,9 @@ int					ft_fill_data(int ac, char **av, t_data *data);
 int					ft_start_parsing(t_data *data);
 long				ft_atoi_spe(char *str);
 void				ft_putstr_fd(char *str, int fd);
-int					ft_check_int(t_data *data, int flag);
+int					ft_check_int(t_data *data);
 int					ft_is_num(t_data *data);
 int					ft_start_parsing(t_data *data);
+void				ft_hard_routine(t_philo *philos);
+
 #endif

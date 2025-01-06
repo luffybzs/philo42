@@ -67,6 +67,11 @@ void	*ft_routine(void *thread)
 	t_philo	*philo;
 
 	philo = (t_philo *)thread;
+	if (philo->data->nb_philos == 1)
+	{
+		ft_hard_routine(philo);
+		return (0);
+	}
 	if (ft_printf_philos(philo, THINK) == EXIT_FAILURE)
 		return (0);
 	if (philo->id % 2 == 0)
@@ -77,13 +82,19 @@ void	*ft_routine(void *thread)
 			break ;
 		if (ft_eat(philo) == EXIT_FAILURE)
 			break ;
-		// if (philo->number_of_meal == philo->data->nb_must_eat)
-		// printf("philo[%d], ate %d meal", philo->id, philo->number_of_meal);
-		// break ; //ajouter dans la structure philo un compteur de repas
+		if (philo->data->sixth_arg && philo->nb_eat == philo->data->nb_must_eat)
+			break ;
 		if (ft_philos_sleep(philo) == EXIT_FAILURE)
 			break ;
 		if (ft_think(philo) == EXIT_FAILURE)
 			break ;
 	}
 	return (0);
+}
+
+void	ft_hard_routine(t_philo *philos)
+{
+	ft_printf_philos(philos, FORK);
+	usleep(philos->data->time_to_die * 1000);
+	ft_printf_philos(philos, DIED);
 }

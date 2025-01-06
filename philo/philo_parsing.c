@@ -26,12 +26,12 @@ int	ft_fill_data(int ac, char **av, t_data *data)
 	return (EXIT_SUCCESS);
 }
 
-int	ft_check_int(t_data *data, int flag)
+int	ft_check_int(t_data *data)
 {
 	if (data->nb_philos <= 0 || data->time_to_die < 0 || data->time_to_eat < 0
 		|| data->time_to_sleep < 0)
 		return (EXIT_FAILURE);
-	if (flag == 1)
+	if (data->sixth_arg == 1)
 		if (data->nb_must_eat < 0)
 			return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
@@ -62,23 +62,22 @@ int	ft_is_num(t_data *data)
 
 int	ft_start_parsing(t_data *data)
 {
-	int	flag;
 
 	if (ft_is_num(data) == EXIT_FAILURE)
 		return (ft_putstr_fd("Error\nInvalid Character\n", 2), EXIT_FAILURE);
-	flag = 0;
 	data->nb_philos = ft_atoi_spe(data->av[1]);
 	data->time_to_die = ft_atoi_spe(data->av[2]);
 	data->time_to_eat = ft_atoi_spe(data->av[3]);
 	data->time_to_sleep = ft_atoi_spe(data->av[4]);
+	data->sixth_arg = 0;
 	if (data->av[5])
 	{
 		data->nb_must_eat = ft_atoi_spe(data->av[5]);
-		flag = 1;
+		data->sixth_arg = 1;
 	}
 	else
 		data->nb_must_eat = -1;
-	if (ft_check_int(data, flag) == EXIT_FAILURE)
+	if (ft_check_int(data) == EXIT_FAILURE)
 		return (ft_putstr_fd("Error\nValue\n", 2), EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
