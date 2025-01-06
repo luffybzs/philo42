@@ -80,6 +80,6 @@ void				ft_putstr_fd(char *str, int fd);
 int					ft_check_int(t_data *data);
 int					ft_is_num(t_data *data);
 int					ft_start_parsing(t_data *data);
-void				ft_hard_routine(t_philo *philos);
+int					ft_hard_routine(t_philo *philos);
 
 #endif

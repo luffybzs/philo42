@@ -62,7 +62,6 @@ int	ft_is_num(t_data *data)
 
 int	ft_start_parsing(t_data *data)
 {
-
 	if (ft_is_num(data) == EXIT_FAILURE)
 		return (ft_putstr_fd("Error\nInvalid Character\n", 2), EXIT_FAILURE);
 	data->nb_philos = ft_atoi_spe(data->av[1]);

@@ -67,11 +67,8 @@ void	*ft_routine(void *thread)
 	t_philo	*philo;
 
 	philo = (t_philo *)thread;
-	if (philo->data->nb_philos == 1)
-	{
-		ft_hard_routine(philo);
+	if (ft_hard_routine(philo) == EXIT_SUCCESS)
 		return (0);
-	}
 	if (ft_printf_philos(philo, THINK) == EXIT_FAILURE)
 		return (0);
 	if (philo->id % 2 == 0)
@@ -92,9 +89,14 @@ void	*ft_routine(void *thread)
 	return (0);
 }
 
-void	ft_hard_routine(t_philo *philos)
+int	ft_hard_routine(t_philo *philos)
 {
-	ft_printf_philos(philos, FORK);
-	usleep(philos->data->time_to_die * 1000);
-	ft_printf_philos(philos, DIED);
+	if (philos->data->nb_philos == 1)
+	{
+		ft_printf_philos(philos, FORK);
+		usleep(philos->data->time_to_die * 1000);
+		ft_printf_philos(philos, DIED);
+		return (EXIT_SUCCESS);
+	}
+	return (EXIT_FAILURE);
 }
